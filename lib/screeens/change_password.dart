@@ -1,3 +1,4 @@
+import 'package:cricstreamer/screeens/home.dart';
 import 'package:flutter/material.dart';
 
 import '../constants/box_decoration.dart';
@@ -67,7 +68,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                       height: MediaQuery.of(context).size.height * 0.18,
                     ),
                     Button(title: "Save Changes", func: () {
-                      // Navigator.push(context, MaterialPageRoute(builder: (context)=>ResetPassword()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
                     }),
                   ],
                 ),
