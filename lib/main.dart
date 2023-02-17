@@ -1,4 +1,5 @@
 import 'package:cricstreamer/screeens/home.dart';
+import 'package:cricstreamer/screeens/signIn.dart';
 import 'package:cricstreamer/screeens/splash.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
     return  MaterialApp(
       theme: ThemeData(fontFamily: 'Roboto'),
       debugShowCheckedModeBanner: false,
-      home: Home(),
+      home: SignIn(),
     );
   }
 }

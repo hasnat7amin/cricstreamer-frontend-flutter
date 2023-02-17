@@ -1,3 +1,4 @@
+import 'package:cricstreamer/screeens/selectImages.dart';
 import 'package:flutter/material.dart';
 
 import '../constants/colors.dart';
@@ -22,7 +23,7 @@ class Add extends StatelessWidget {
             SizedBox(height: 32,),
             Button(
               func: () {
-                
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>SelectImages()));
               },
               title: "Upload Image",
               colors: [

@@ -35,10 +35,20 @@ const TextStyle gray_dark_style3 = TextStyle(
   fontSize: 17,
   fontWeight: FontWeight.normal,
 );
-
+const TextStyle gray_dark_style4 = TextStyle(
+  color: gray_dark,
+  fontStyle: FontStyle.italic,
+  fontWeight: FontWeight.bold,
+);
 const TextStyle green_style1 = TextStyle(
   color: green_light,
   fontSize: 26,
+  fontWeight: FontWeight.normal,
+);
+
+const TextStyle green_style3 = TextStyle(
+  color: green_light,
+  fontSize: 16,
   fontWeight: FontWeight.normal,
 );
 
