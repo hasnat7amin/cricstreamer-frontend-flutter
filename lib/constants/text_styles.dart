@@ -40,6 +40,10 @@ const TextStyle gray_dark_style4 = TextStyle(
   fontStyle: FontStyle.italic,
   fontWeight: FontWeight.bold,
 );
+const TextStyle gray_dark_style5 = TextStyle(
+  fontSize: 16,
+  color: gray_dark,
+);
 const TextStyle green_style1 = TextStyle(
   color: green_light,
   fontSize: 26,

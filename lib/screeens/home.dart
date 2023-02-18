@@ -15,7 +15,7 @@ import '../widgets/navbaritem.dart';
 class Home extends StatefulWidget {
   bool showsearch = true;
   int currentPage = 2;
-  Home({Key? key}) : super(key: key);
+  Home({Key? key,this.currentPage = 2}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();

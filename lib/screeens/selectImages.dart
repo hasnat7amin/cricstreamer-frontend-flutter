@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:cricstreamer/constants/colors.dart';
+import 'package:cricstreamer/screeens/add_post.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../constants/text_styles.dart';
 
@@ -46,9 +48,31 @@ class _SelectImagesState extends State<SelectImages> {
           title: Text("Select Image", style: green_style3),
           centerTitle: true,
           actions: [
-            Icon(
-              Icons.arrow_forward,
-              color: green_light,
+            GestureDetector(
+              onTap: () {
+                List<Map> selectedImages = [];
+                for (int i = 0; i < allImages.length; i++) {
+                  if (allImages[i]["isSelected"] == true)
+                    selectedImages.add(allImages[i]);
+                }
+                print(selectedImages.length);
+                if (selectedImages.length > 0) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              AddPost(allImages: selectedImages)));
+                } else {
+                  Fluttertoast.showToast(
+                    msg: "please select atleast one image.",
+                    backgroundColor: gray_dark,
+                  );
+                }
+              },
+              child: Icon(
+                Icons.arrow_forward,
+                color: green_light,
+              ),
             ),
             SizedBox(
               width: 10,
@@ -84,9 +108,9 @@ class _SelectImagesState extends State<SelectImages> {
                               },
                               child: Image.file(
                                 File(allImages[index]['path']),
-                                  fit: BoxFit.cover,
-                                  width: 125,
-                                  height: 125,
+                                fit: BoxFit.cover,
+                                width: 125,
+                                height: 125,
                               ),
                             ),
                             Transform.scale(
@@ -105,7 +129,8 @@ class _SelectImagesState extends State<SelectImages> {
                                   focusColor: green_light,
                                   activeColor: green_dark,
                                   side: MaterialStateBorderSide.resolveWith(
-                                    (states) => BorderSide(width: 1.0, color: gray),
+                                    (states) =>
+                                        BorderSide(width: 1.0, color: gray),
                                   ),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(2.0),
@@ -143,7 +168,8 @@ class _SelectImagesState extends State<SelectImages> {
                         photo = (await _picker.pickImage(
                             source: ImageSource.camera))!;
                         setState(() {
-                          allImages.add({'path': photo.path, 'isSelected': false});
+                          allImages
+                              .add({'path': photo.path, 'isSelected': false});
                         });
                       },
                       child: Container(
@@ -183,7 +209,6 @@ class _SelectImagesState extends State<SelectImages> {
                                 allImages[i]['isSelected'] = selectAll;
                               }
                             });
-
                           },
                         )
                       ],

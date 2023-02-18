@@ -34,7 +34,9 @@ class Add extends StatelessWidget {
             ),
             SizedBox(height: 18,),
             Button(
-              func: () {},
+              func: () {
+
+              },
               title: "Upload Video",
               colors: [
                 Color(0xffFF8748),
