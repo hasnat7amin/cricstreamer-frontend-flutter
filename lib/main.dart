@@ -1,3 +1,4 @@
+import 'package:cricstreamer/screeens/create_team.dart';
 import 'package:cricstreamer/screeens/home.dart';
 import 'package:cricstreamer/screeens/selectImages.dart';
 import 'package:cricstreamer/screeens/signIn.dart';
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
     return  MaterialApp(
       theme: ThemeData(fontFamily: 'Roboto'),
       debugShowCheckedModeBanner: false,
-      home: SelectImages(),
+      home: Home(),
     );
   }
 }

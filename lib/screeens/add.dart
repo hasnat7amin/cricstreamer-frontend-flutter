@@ -1,4 +1,6 @@
+import 'package:cricstreamer/screeens/create_team.dart';
 import 'package:cricstreamer/screeens/selectImages.dart';
+import 'package:cricstreamer/screeens/selectVideos.dart';
 import 'package:flutter/material.dart';
 
 import '../constants/colors.dart';
@@ -35,7 +37,7 @@ class Add extends StatelessWidget {
             SizedBox(height: 18,),
             Button(
               func: () {
-
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>SelectVideos()));
               },
               title: "Upload Video",
               colors: [
@@ -48,7 +50,9 @@ class Add extends StatelessWidget {
             ),
             SizedBox(height: 18,),
             Button(
-                func: () {},
+                func: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>CreateTeam()));
+                },
                 title: "Live Streaming",
                 colors: [
                   Color(0xffFF4A4A),

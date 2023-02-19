@@ -41,7 +41,7 @@ class _TextInputState extends State<TextInput> {
       keyboardType: _keyboardType?TextInputType.number:TextInputType.text,
       controller: _controller,
       decoration: InputDecoration(
-        prefixIcon: Padding(
+        prefixIcon: _iconlabel=="null"?null:Padding(
           padding: const EdgeInsets.all(10.0),
           child: Image.asset(
             _iconlabel,
