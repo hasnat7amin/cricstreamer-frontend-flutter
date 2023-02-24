@@ -42,7 +42,7 @@ class UserRepo {
   }
   Future<dynamic> changePassword (dynamic data, dynamic headers) async {
     try{
-      dynamic response = await _apiService.getPostApiResponse(AppUrl.verifyOtpEndPoint, data, headers);
+      dynamic response = await _apiService.getPostApiResponse(AppUrl.changePasswordEndPoint, data, headers);
       return response;
     }catch (e){
       throw e;

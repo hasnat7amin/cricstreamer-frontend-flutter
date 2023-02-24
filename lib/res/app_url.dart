@@ -10,6 +10,6 @@ class AppUrl{
   static var signUpEndPoint = '$baseUrl/api/user/signup';
   static var resetPasswordEndPoint = '$baseUrl/api/user/sendOTP';
   static var verifyOtpEndPoint = '$baseUrl/api/user/signup/verify';
-  static var changePassword = '$baseUrl/api/user/changePassword';
+  static var changePasswordEndPoint = '$baseUrl/api/user/changePassword';
 
 }

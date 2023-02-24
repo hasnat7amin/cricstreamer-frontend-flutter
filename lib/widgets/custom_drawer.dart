@@ -1,3 +1,6 @@
+import 'package:cricstreamer/res/routes/route_name.dart';
+import 'package:cricstreamer/view_model/user_view_model.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
 import '../constants/colors.dart';
@@ -10,6 +13,7 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userViewMode = Provider.of<UserViewModel>(context);
     return Drawer(
       backgroundColor: white,
       width: MediaQuery.of(context).size.width * 0.8,
@@ -67,7 +71,10 @@ class CustomDrawer extends StatelessWidget {
                           children: [
                             DrawerListTile(image: "assests/images/user-plus.png", textStyle: gray_dark_style3, title: 'Add Account',),
                             DrawerListTile(image: "assests/images/settings.png", textStyle: gray_dark_style3, title: 'Settings',),
-                            DrawerListTile(image: "assests/images/log-out.png", textStyle: gray_dark_style3, title: 'Logout',),
+                            GestureDetector(onTap:()async{
+                              if(await userViewMode.remove()){
+                                Navigator.pushNamed(context, RouteName.login);
+                              }},child: DrawerListTile(image: "assests/images/log-out.png", textStyle: gray_dark_style3, title: 'Logout',)),
                           ],
                         ),
                       ),

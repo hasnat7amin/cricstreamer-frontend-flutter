@@ -26,11 +26,11 @@ class _SplashScreenState extends State<SplashScreen> {
       ()async {
         final SharedPreferences sp = await SharedPreferences.getInstance();
         final String? token = sp.getString('token');
-        // if(token!=null){
-        //   // Navigator.pushNamed(context, RouteName.home);
-        // }
-        // else
-          Navigator.pushNamed(context, RouteName.login);
+        if(token!=null){
+          Navigator.pushNamedAndRemoveUntil(context, RouteName.home,(route) => false);
+        }
+        else
+          Navigator.pushNamedAndRemoveUntil(context, RouteName.login, (route) => false);
       },
     );
   }

@@ -82,6 +82,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                         func: () {
                           if (password.text.trim().toString() ==
                               confirm_password.text.trim().toString()) {
+                            print(userViewMode
+                                .verifyOtpResponse.data['data']['_id']
+                                .toString());
                             userViewMode.changePasswordApi(
                                 jsonEncode({
                                   "userId": userViewMode

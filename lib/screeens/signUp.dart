@@ -4,6 +4,7 @@ import 'package:cricstreamer/constants/box_decoration.dart';
 import 'package:cricstreamer/constants/box_shadows.dart';
 import 'package:cricstreamer/constants/colors.dart';
 import 'package:cricstreamer/constants/text_styles.dart';
+import 'package:cricstreamer/res/routes/route_name.dart';
 import 'package:cricstreamer/screeens/login.dart';
 import 'package:cricstreamer/view_model/user_view_model.dart';
 import 'package:cricstreamer/widgets/button.dart';
@@ -178,9 +179,11 @@ class _SignUpState extends State<SignUp> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
+                  children: [
                     Text("Already have an account!", style: gray_style3),
-                    Text("Login", style: gray_style1),
+                    GestureDetector(onTap:(){
+                      Navigator.pushNamedAndRemoveUntil(context, RouteName.login, (route) => false);
+                    },child: Text("Login", style: gray_style1)),
                   ],
                 ),
               ),

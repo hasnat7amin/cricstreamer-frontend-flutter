@@ -106,7 +106,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                     const Text("Don't have an account!", style: gray_style3),
                     GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, RouteName.signUp);
+                          Navigator.pushNamedAndRemoveUntil(context, RouteName.signUp,(route) => false);
                         },
                         child: Text("Create Account", style: gray_style1)),
                   ],

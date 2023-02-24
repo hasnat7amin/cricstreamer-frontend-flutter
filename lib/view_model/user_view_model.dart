@@ -64,7 +64,7 @@ class UserViewModel with ChangeNotifier {
         await ShowDialog.show(context,true,"Congratulations","you are successfully logged in.");
         setIsLoading(false);
         saveUser(UserModel(token: value['token'].toString()));
-        Navigator.pushNamed(context, RouteName.home);
+        Navigator.pushNamedAndRemoveUntil(context, RouteName.home,(route) => false);
       }).onError((error, stackTrace) {
         if(kDebugMode){
           print(error.toString());
@@ -93,7 +93,7 @@ class UserViewModel with ChangeNotifier {
             print(value.toString());
           }
           // save data in view model using providers
-          Navigator.pushNamed(context, RouteName.home);
+          Navigator.pushNamedAndRemoveUntil(context, RouteName.home,(route) => false);
       }).onError((error, stackTrace) async {
         if(kDebugMode){
           print(error.toString());
@@ -115,7 +115,7 @@ class UserViewModel with ChangeNotifier {
         resetPassword = ApiResponse.completed(value);
         notifyListeners();
         await ShowDialog.show(context, true, "Congratulations", "please check your email and enter otp.");
-        Navigator.pushNamed(context, RouteName.verify_password);
+        Navigator.pushNamedAndRemoveUntil(context, RouteName.verify_password,(route) => false);
 
       }).onError((error, stackTrace)async{
         if(kDebugMode){
@@ -138,7 +138,7 @@ class UserViewModel with ChangeNotifier {
         verifyOtpResponse = ApiResponse.completed(value);
         notifyListeners();
         await ShowDialog.show(context, true, "Congratulations", "Your otp is verified.");
-        Navigator.pushNamed(context, RouteName.change_password);
+        Navigator.pushNamedAndRemoveUntil(context, RouteName.change_password,(route) => false);
 
       }).onError((error, stackTrace)async{
         if(kDebugMode){
@@ -159,9 +159,13 @@ class UserViewModel with ChangeNotifier {
       notifyListeners();
       _userRepo.changePassword(data, headers).then((value)async{
         changePasswordResponse = ApiResponse.completed(value);
+
+        if(kDebugMode){
+          print(value.toString());
+        }
         notifyListeners();
         await ShowDialog.show(context, true, "Congratulations", "Your password is changed.");
-        Navigator.pushNamed(context, RouteName.login);
+        Navigator.pushNamedAndRemoveUntil(context, RouteName.login,(route) => false);
       }).onError((error, stackTrace)async{
         if(kDebugMode){
           print(error.toString());

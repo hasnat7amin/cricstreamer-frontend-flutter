@@ -85,8 +85,8 @@ class _LoginState extends State<Login> {
                       alignment: Alignment.topRight,
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(
-                              context, RouteName.reset_password);
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, RouteName.reset_password,(route) => false);
                         },
                         child: const Text(
                           "Forgot Password?",
@@ -123,7 +123,7 @@ class _LoginState extends State<Login> {
                     const Text("Don't have an account!", style: gray_style3),
                     GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, RouteName.signUp);
+                          Navigator.pushNamedAndRemoveUntil(context, RouteName.signUp,(route) => false);
                         },
                         child:
                             const Text("Create Account", style: gray_style1)),

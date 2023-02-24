@@ -114,8 +114,8 @@ class _VerifyTokenState extends State<VerifyToken> {
                         alignment: Alignment.topRight,
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.pushNamed(
-                                context, RouteName.reset_password);
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, RouteName.reset_password,(route) => false);
                           },
                           child: Text(
                             "Dont't recieve code?",
@@ -152,7 +152,7 @@ class _VerifyTokenState extends State<VerifyToken> {
                   children: [
                     GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, RouteName.login);
+                          Navigator.pushNamedAndRemoveUntil(context, RouteName.login,(route) => false);
                         },
                         child: Text("Sign in with different account.",
                             style: gray_style2)),
