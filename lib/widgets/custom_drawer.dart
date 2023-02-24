@@ -73,7 +73,7 @@ class CustomDrawer extends StatelessWidget {
                             DrawerListTile(image: "assests/images/settings.png", textStyle: gray_dark_style3, title: 'Settings',),
                             GestureDetector(onTap:()async{
                               if(await userViewMode.remove()){
-                                Navigator.pushNamed(context, RouteName.login);
+                                Navigator.pushNamedAndRemoveUntil(context, RouteName.login,(route) => false);
                               }},child: DrawerListTile(image: "assests/images/log-out.png", textStyle: gray_dark_style3, title: 'Logout',)),
                           ],
                         ),
