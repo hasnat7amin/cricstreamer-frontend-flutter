@@ -1,5 +1,6 @@
 import 'package:cricstreamer/constants/box_shadows.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 
 import '../constants/colors.dart';
 
@@ -10,6 +11,8 @@ class Button extends StatelessWidget {
   String icon;
   double iconWidth;
   double iconHeight;
+  bool isLoading;
+
   Button(
       {Key? key,
       required this.title,
@@ -21,6 +24,7 @@ class Button extends StatelessWidget {
         this.icon = "null",
         this.iconHeight = 17,
         this.iconWidth = 17,
+        this.isLoading = false
       })
       : super(key: key);
 
@@ -37,7 +41,13 @@ class Button extends StatelessWidget {
           boxShadow: [shadow2],
           gradient: LinearGradient(colors: colors),
         ),
-        child: Row(
+        child: isLoading?LoadingIndicator(
+            indicatorType: Indicator.ballScaleMultiple,
+            colors: const [Colors.white],
+            strokeWidth: 1,
+            backgroundColor: Colors.transparent,
+            pathBackgroundColor: Colors.transparent
+        ):Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

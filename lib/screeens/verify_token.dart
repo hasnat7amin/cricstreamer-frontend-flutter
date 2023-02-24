@@ -1,6 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:cricstreamer/data/response/status.dart';
+import 'package:cricstreamer/res/routes/route_name.dart';
 import 'package:cricstreamer/screeens/change_password.dart';
+import 'package:cricstreamer/view_model/user_view_model.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
 import '../constants/box_decoration.dart';
@@ -12,7 +17,6 @@ import '../widgets/size_box.dart';
 import '../widgets/text_input.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
-
 class VerifyToken extends StatefulWidget {
   const VerifyToken({Key? key}) : super(key: key);
 
@@ -21,7 +25,7 @@ class VerifyToken extends StatefulWidget {
 }
 
 class _VerifyTokenState extends State<VerifyToken> {
-  final TextEditingController email = TextEditingController();
+  final TextEditingController otp = TextEditingController();
   bool isCompleted = false;
   double percent = 0.0;
   int time = 1;
@@ -30,11 +34,11 @@ class _VerifyTokenState extends State<VerifyToken> {
   @override
   void initState() {
     // Timer timer;
-    timer = Timer.periodic(Duration(seconds:1),(_){
+    timer = Timer.periodic(Duration(seconds: 1), (_) {
       setState(() {
-        percent+=1.66666667;
-        time+=1;
-        if(time >= 60){
+        percent += 1.66666667;
+        time += 1;
+        if (time >= 60) {
           isCompleted = true;
           timer.cancel();
           // percent=0;
@@ -46,6 +50,7 @@ class _VerifyTokenState extends State<VerifyToken> {
 
   @override
   Widget build(BuildContext context) {
+    final userViewMode = Provider.of<UserViewModel>(context);
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -74,9 +79,9 @@ class _VerifyTokenState extends State<VerifyToken> {
                     new CircularPercentIndicator(
                       radius: 40.0,
                       lineWidth: 8.0,
-                      percent: ((percent.round())/100).toDouble(),
+                      percent: ((percent.round()) / 100).toDouble(),
                       center: new Text(
-                        time.toString()+" sec",
+                        time.toString() + " sec",
                         style: gray_style2,
                       ),
                       circularStrokeCap: CircularStrokeCap.round,
@@ -98,26 +103,43 @@ class _VerifyTokenState extends State<VerifyToken> {
                     TextInput(
                       textlabel: "OTP Code",
                       iconlabel: "assests/images/password.png",
-                      controller: email,
+                      controller: otp,
                       keyboardType: true,
                     ),
                     SizeBox(
                       height: 18,
                     ),
-                    if(isCompleted)
+                    if (isCompleted)
                       Container(
-                      alignment: Alignment.topRight,
-                      child: Text(
-                        "Dont't recieve code?",
-                        style: gray_style3,
+                        alignment: Alignment.topRight,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, RouteName.reset_password);
+                          },
+                          child: Text(
+                            "Dont't recieve code?",
+                            style: gray_style3,
+                          ),
+                        ),
                       ),
-                    ),
                     SizeBox(
                       height: MediaQuery.of(context).size.height * 0.18,
                     ),
-                    Button(title: "Submit", func: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>ChangePassword()));
-                    }),
+                    Button(
+                        title: "Submit",
+                        isLoading: userViewMode.verifyOtpResponse.status ==
+                                Status.LOADING
+                            ? true
+                            : false,
+                        func: () {
+                          if(userViewMode.resetPassword.status == Status.COMPLETED){
+                            userViewMode.verifyOtpApi(jsonEncode({
+                              "userId": userViewMode.resetPassword.data['data']['_id'].toString(),
+                              "otp": otp.text.trim().toString()
+                            }), context);
+                          }
+                        }),
                   ],
                 ),
               ),
@@ -127,8 +149,13 @@ class _VerifyTokenState extends State<VerifyToken> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
-                    Text("Sign in with different account.", style: gray_style2),
+                  children: [
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, RouteName.login);
+                        },
+                        child: Text("Sign in with different account.",
+                            style: gray_style2)),
                   ],
                 ),
               ),

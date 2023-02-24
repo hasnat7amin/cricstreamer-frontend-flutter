@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cricstreamer/screeens/add_players.dart';
 import 'package:cricstreamer/widgets/add_button.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -204,14 +205,19 @@ class _TeamDetailsState extends State<TeamDetails> {
                 bottom: 0,
                 child: Button(
                   func: () {
-                    // Navigator.push(context, MaterialPageRoute(builder: (context)=>SelectImages()));
+                    if(isBackgoundSelected != false || isLogoSelected != false){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>AddPlayers(backgroundImage: backgroundImage.path, logoImage: logoImage.path)));
+                    }
+
                   },
                   title: "Next",
                   colors: [
                     green_dark,
                     green_light,
                   ],
-                  icon: "null",
+                  icon: "assests/images/arrow.png",
+                  iconWidth: 13,
+                  iconHeight: 13,
                 ),
               ),
             ],

@@ -1,4 +1,9 @@
+import 'dart:convert';
+
+import 'package:cricstreamer/data/response/status.dart';
 import 'package:cricstreamer/screeens/home.dart';
+import 'package:cricstreamer/view_model/user_view_model.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
 import '../constants/box_decoration.dart';
@@ -22,6 +27,7 @@ class _ChangePasswordState extends State<ChangePassword> {
 
   @override
   Widget build(BuildContext context) {
+    final userViewMode = Provider.of<UserViewModel>(context);
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -67,9 +73,25 @@ class _ChangePasswordState extends State<ChangePassword> {
                     SizeBox(
                       height: MediaQuery.of(context).size.height * 0.18,
                     ),
-                    Button(title: "Save Changes", func: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
-                    }),
+                    Button(
+                        title: "Save Changes",
+                        isLoading: userViewMode.changePasswordResponse.status ==
+                                Status.COMPLETED
+                            ? true
+                            : false,
+                        func: () {
+                          if (password.text.trim().toString() ==
+                              confirm_password.text.trim().toString()) {
+                            userViewMode.changePasswordApi(
+                                jsonEncode({
+                                  "userId": userViewMode
+                                      .verifyOtpResponse.data['data']['_id']
+                                      .toString(),
+                                  "password": password.text.trim().toString()
+                                }),
+                                context);
+                          }
+                        }),
                   ],
                 ),
               ),

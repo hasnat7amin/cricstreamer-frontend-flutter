@@ -1,22 +1,26 @@
+import 'dart:convert';
+
 import 'package:cricstreamer/constants/box_decoration.dart';
 import 'package:cricstreamer/constants/box_shadows.dart';
 import 'package:cricstreamer/constants/colors.dart';
 import 'package:cricstreamer/constants/text_styles.dart';
 import 'package:cricstreamer/screeens/login.dart';
+import 'package:cricstreamer/view_model/user_view_model.dart';
 import 'package:cricstreamer/widgets/button.dart';
 import 'package:cricstreamer/widgets/text_input.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/size_box.dart';
 
-class SignIn extends StatefulWidget {
-  const SignIn({Key? key}) : super(key: key);
+class SignUp extends StatefulWidget {
+  const SignUp({Key? key}) : super(key: key);
 
   @override
-  State<SignIn> createState() => _SignInState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _SignInState extends State<SignIn> {
+class _SignUpState extends State<SignUp> {
   final TextEditingController username = TextEditingController();
   final TextEditingController email = TextEditingController();
   final TextEditingController phone = TextEditingController();
@@ -25,7 +29,19 @@ class _SignInState extends State<SignIn> {
   bool isChecked = false;
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    username.dispose();
+    email.dispose();
+    phone.dispose();
+    password.dispose();
+    confirm_pasword.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final userViewMode = Provider.of<UserViewModel>(context);
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -41,24 +57,15 @@ class _SignInState extends State<SignIn> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    const Text(
-                      "Create Account",
-                      style: green_style1
-                    ),
+                    const Text("Create Account", style: green_style1),
                     SizeBox(
                       height: 12,
                     ),
-                    const Text(
-                      "Hello!",
-                      style: gray_style2
-                    ),
+                    const Text("Hello!", style: gray_style2),
                     SizeBox(
                       height: 6,
                     ),
-                    const Text(
-                      "You are few step away!",
-                      style: gray_style3
-                    ),
+                    const Text("You are few step away!", style: gray_style3),
                     SizeBox(
                       height: 12,
                     ),
@@ -107,7 +114,7 @@ class _SignInState extends State<SignIn> {
                         Checkbox(
                             activeColor: green_dark,
                             side: MaterialStateBorderSide.resolveWith(
-                                  (states) => BorderSide(width: 1.0, color: gray),
+                              (states) => BorderSide(width: 1.0, color: gray),
                             ),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(2.0),
@@ -148,9 +155,20 @@ class _SignInState extends State<SignIn> {
                     SizeBox(
                       height: 18,
                     ),
-                    Button(title: "Create Account", func: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=> Login()));
-                    },),
+                    Button(
+                      title: "Create Account",
+                      isLoading: userViewMode.isSignUpLoading,
+                      func: () {
+                        if(userViewMode.isSignUpLoading == false && isChecked == true && password.text.trim().toString() == confirm_pasword.text.trim().toString()){
+                          userViewMode.signUpApi(json.encode({
+                            "name":username.text.trim().toString(),
+                            "email":email.text.trim().toString(),
+                            "password": password.text.trim().toString(),
+                            "phoneNo": phone.text.trim().toString(),
+                          }), context);
+                        }
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -161,14 +179,8 @@ class _SignInState extends State<SignIn> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: const [
-                    Text(
-                      "Already have an account!",
-                      style: gray_style3
-                    ),
-                    Text(
-                      "Login",
-                      style: gray_style1
-                    ),
+                    Text("Already have an account!", style: gray_style3),
+                    Text("Login", style: gray_style1),
                   ],
                 ),
               ),

@@ -91,6 +91,8 @@ class _AddPostState extends State<AddPost> {
                   green_light,
                 ],
                 icon: "assests/images/arrow.png",
+                iconWidth: 13,
+                iconHeight: 13,
               ),
             ],
           ),

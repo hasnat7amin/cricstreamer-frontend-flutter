@@ -1,6 +1,12 @@
+import 'dart:convert';
+
 import 'package:cricstreamer/constants/box_decoration.dart';
+import 'package:cricstreamer/data/response/status.dart';
+import 'package:cricstreamer/res/routes/route_name.dart';
 import 'package:cricstreamer/screeens/verify_token.dart';
+import 'package:cricstreamer/view_model/user_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../constants/colors.dart';
 import '../constants/text_styles.dart';
@@ -8,7 +14,6 @@ import '../widgets/button.dart';
 import '../widgets/circle_logo.dart';
 import '../widgets/size_box.dart';
 import '../widgets/text_input.dart';
-
 
 class ResetPassword extends StatefulWidget {
   const ResetPassword({Key? key}) : super(key: key);
@@ -21,7 +26,15 @@ class _ResetPasswordState extends State<ResetPassword> {
   final TextEditingController email = TextEditingController();
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    email.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final _userViewMode = Provider.of<UserViewModel>(context);
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -70,9 +83,16 @@ class _ResetPasswordState extends State<ResetPassword> {
                     SizeBox(
                       height: MediaQuery.of(context).size.height * 0.18,
                     ),
-                    Button(title: "Next", func: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>VerifyToken()));
-                    }),
+                    Button(
+                        title: "Next",
+                        isLoading: _userViewMode.resetPassword.status == Status.LOADING?true:false,
+                        func: () {
+                          print("api calling");
+                          _userViewMode.resetPasswordApi(
+                              jsonEncode(
+                                  {"email": email.text.trim().toString()}),
+                              context);
+                        }),
                   ],
                 ),
               ),
@@ -82,9 +102,13 @@ class _ResetPasswordState extends State<ResetPassword> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
-                    Text("Don't have an account!", style: gray_style3),
-                    Text("Create Account", style: gray_style1),
+                  children: [
+                    const Text("Don't have an account!", style: gray_style3),
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, RouteName.signUp);
+                        },
+                        child: Text("Create Account", style: gray_style1)),
                   ],
                 ),
               ),

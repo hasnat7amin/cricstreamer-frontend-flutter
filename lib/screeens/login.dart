@@ -1,10 +1,15 @@
+import 'dart:convert';
+
 import 'package:cricstreamer/constants/box_decoration.dart';
 import 'package:cricstreamer/constants/text_styles.dart';
+import 'package:cricstreamer/res/routes/route_name.dart';
 import 'package:cricstreamer/screeens/reset_password.dart';
+import 'package:cricstreamer/view_model/user_view_model.dart';
 import 'package:cricstreamer/widgets/button.dart';
 import 'package:cricstreamer/widgets/circle_logo.dart';
 import 'package:cricstreamer/widgets/text_input.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../constants/colors.dart';
 import '../widgets/size_box.dart';
@@ -17,11 +22,20 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  final TextEditingController username = TextEditingController();
-  final TextEditingController password = TextEditingController();
+  TextEditingController username = TextEditingController();
+  TextEditingController password = TextEditingController();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    username.dispose();
+    password.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final authViewMode = Provider.of<UserViewModel>(context);
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -52,34 +66,50 @@ class _LoginState extends State<Login> {
                       height: 72,
                     ),
                     TextInput(
-                        textlabel: "Email/Phone",
-                        iconlabel: "assests/images/username.png",
-                        controller: username,
+                      textlabel: "Email/Phone",
+                      iconlabel: "assests/images/username.png",
+                      controller: username,
                     ),
                     SizeBox(
                       height: 18,
                     ),
                     TextInput(
-                        textlabel: "Password",
-                        iconlabel: "assests/images/password.png",
-                        controller: password,
+                      textlabel: "Password",
+                      iconlabel: "assests/images/password.png",
+                      controller: password,
                     ),
                     SizeBox(
                       height: 18,
                     ),
                     Container(
                       alignment: Alignment.topRight,
-                      child: Text(
-                        "Forgot Password?",
-                        style: gray_style3,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, RouteName.reset_password);
+                        },
+                        child: const Text(
+                          "Forgot Password?",
+                          style: gray_style3,
+                        ),
                       ),
                     ),
                     SizeBox(
                       height: MediaQuery.of(context).size.height * 0.18,
                     ),
-                    Button(title: "Login", func: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>ResetPassword()));
-                    }),
+                    Button(
+                        title: "Login",
+                        isLoading: authViewMode.isLoading,
+                        func: () {
+                          if (authViewMode.isLoading == false) {
+                            authViewMode.loginApi(
+                                json.encode({
+                                  "email": username.text.trim().toString(),
+                                  "password": password.text.trim().toString()
+                                }),
+                                context);
+                          }
+                        }),
                   ],
                 ),
               ),
@@ -89,9 +119,14 @@ class _LoginState extends State<Login> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
-                    Text("Don't have an account!", style: gray_style3),
-                    Text("Create Account", style: gray_style1),
+                  children: [
+                    const Text("Don't have an account!", style: gray_style3),
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, RouteName.signUp);
+                        },
+                        child:
+                            const Text("Create Account", style: gray_style1)),
                   ],
                 ),
               ),

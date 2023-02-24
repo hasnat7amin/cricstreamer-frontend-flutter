@@ -1,9 +1,10 @@
 import 'dart:async';
 
 import 'package:cricstreamer/constants/colors.dart';
-import 'package:cricstreamer/screeens/signIn.dart';
+import 'package:cricstreamer/res/routes/route_name.dart';
+import 'package:cricstreamer/view_model/user_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants/text_styles.dart';
 
@@ -15,17 +16,21 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     Timer(
       const Duration(seconds: 5),
-      () {
-        Navigator.push(
-          this.context,
-          MaterialPageRoute(builder: (context) => const SignIn()),
-        );
+      ()async {
+        final SharedPreferences sp = await SharedPreferences.getInstance();
+        final String? token = sp.getString('token');
+        // if(token!=null){
+        //   // Navigator.pushNamed(context, RouteName.home);
+        // }
+        // else
+          Navigator.pushNamed(context, RouteName.login);
       },
     );
   }
